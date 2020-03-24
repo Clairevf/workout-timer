@@ -7,10 +7,12 @@ import { TimeBlock } from './widgets/TimeBlock';
 function App() {
   return (
     <div className="App">
-      <TimeBlock duration={3} isActive={true} />
-      <header className="App-header">
-
-      </header>
+      <div className="program-workout">
+        <TimeBlock duration={5} isActive={true} />
+        <TimeBlock duration={3} isActive={false} />
+        <TimeBlock duration={5} isActive={true} />
+        <TimeBlock duration={3} isActive={false} />
+      </div>
     </div>
   );
 }

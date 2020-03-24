@@ -3,16 +3,9 @@ import React, { Component } from 'react'; // we need this to make JSX compile
 type TimerProps = {
   duration: number,
   isActive: boolean,
-  isFinished: boolean
+  hasFinished: boolean,
+  hasStarted: boolean
 }
-
-// export const TimeBlock = ({ duration, isActive }: TimerProps) => <aside>
-//   <h2>{ duration } seconds on the clock...</h2>
-//   <p> active ? { isActive ? 'GO!' : 'REST' }
-//   </p>
-// </aside>
-
-// const el = <TimeBlock duration={45} isActive={true} />
 
 export class TimeBlock extends Component<{duration: number, isActive: boolean}, TimerProps> {
     interval: NodeJS.Timer;
@@ -21,8 +14,10 @@ export class TimeBlock extends Component<{duration: number, isActive: boolean}, 
 
         this.state = {
             duration: props.duration,
-            isActive: props.isActive || true,
-            isFinished: false
+            isActive: props.isActive,
+            hasFinished: false,
+
+            hasStarted: false,
         };
     }
     // The tick function sets the current state. TypeScript will let us know
@@ -36,12 +31,16 @@ export class TimeBlock extends Component<{duration: number, isActive: boolean}, 
             // DING THE BELL
             clearInterval(this.interval);
             this.setState({
-                isFinished: true
+                hasFinished: true
             });
         }
     }
 
-    componentDidMount() {
+    onTimerBlockClicked() {
+        this.setState({
+            hasStarted: true
+        });
+
         this.interval = setInterval(() => {
             this.tick();
         }, 1000);
@@ -49,6 +48,9 @@ export class TimeBlock extends Component<{duration: number, isActive: boolean}, 
 
     // render will know everything!
     render() {
-        return <h1>{this.state.duration} SECONDS REMAINING</h1>
+        let activeClass = this.state.isActive ? 'active-block' : 'rest-block';
+        return <div className={"time-block " + activeClass} onClick={() => this.onTimerBlockClicked()}>
+            <h1>{this.state.duration} seconds remaining!</h1>
+        </div>;
     }
 }
