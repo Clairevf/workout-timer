@@ -5,13 +5,19 @@ export type TimeBlockProps = {
   activeClass: string
 }
 
+export enum TimeBlockTypes {
+    ACTIVE = 0,
+    REST = 1,
+    BREAK = 2
+};
+
 export class TimeBlock extends Component<{duration: number, activeClass: string}, TimeBlockProps> {
     interval: NodeJS.Timer;
 
     // render will know everything!
     render() {
         return <div className={"time-block " + this.props.activeClass}>
-            <h1>{this.props.duration} seconds remaining!</h1>
+            <div>{this.props.duration} seconds remaining!</div>
         </div>;
     }
 }

@@ -16,11 +16,12 @@ code {
   margin: 0 auto;
   padding: 3px;
   width: 300px;
-  font-size: 11px;
+  font-size: 16px;
 }
 
 .current {
   width: 500px;
+  font-size: 24px;
 }
 
 .active-block {
@@ -43,3 +44,6 @@ code {
   text-align: center;
 }
 
+.add-block-btn{
+  float: right;
+}

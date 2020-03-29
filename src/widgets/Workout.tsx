@@ -2,7 +2,6 @@ import React, { Component } from 'react'; // we need this to make JSX compile
 import {TimeBlock, TimeBlockProps} from './TimeBlock';
 
 type WorkoutProps = {
-    // program: Array<TimeBlock>,
     blocks: Array<TimeBlockProps>,
     currentBlock: number,
     isFinished: boolean
@@ -12,7 +11,6 @@ export class Workout extends Component<{}, WorkoutProps> {
     interval: NodeJS.Timer;
     totalBlocks: number;
     state = {
-        // program: Array<TimeBlock>(),
         blocks: Array<TimeBlockProps>(),
         currentBlock: 0,
         isFinished: false
@@ -37,10 +35,9 @@ export class Workout extends Component<{}, WorkoutProps> {
 
         this.setState({
             blocks: newWorkout,
-            currentBlock: 0
+            currentBlock: 0,
+            isFinished: false
         });
-
-        this.startInterval();
     };
 
     tick() {
@@ -75,7 +72,7 @@ export class Workout extends Component<{}, WorkoutProps> {
 
         // restart cycle or end workout
         if (this.state.currentBlock < this.totalBlocks) {
-            this.startInterval();
+            this.startWorkout();
         } else {
             this.endWorkout();
         }
@@ -87,7 +84,7 @@ export class Workout extends Component<{}, WorkoutProps> {
         });
     }
 
-    startInterval() {
+    startWorkout() {
         this.interval = setInterval(() => {
             this.tick();
         }, 1000);
@@ -104,7 +101,12 @@ export class Workout extends Component<{}, WorkoutProps> {
                          />)
         }
         return <div className={"workout-container"}>
-            <button onClick={() => this.generateRandomWorkout()}>GENERATE RANDOM WORKOUT</button>
+            <div>
+                <button onClick={() => this.generateRandomWorkout()}>GENERATE RANDOM WORKOUT</button>
+            </div>
+            <div>
+                <button onClick={() => this.startWorkout()}>START WORKOUT</button>
+            </div>
             {rows}
             <h1 className={this.state.isFinished ? 'show' : 'hide'}> FINISHED </h1>
         </div>
