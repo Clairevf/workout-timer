@@ -4,7 +4,8 @@ import {TimeBlock, TimeBlockProps} from './TimeBlock';
 type WorkoutProps = {
     // program: Array<TimeBlock>,
     blocks: Array<TimeBlockProps>,
-    currentBlock: number
+    currentBlock: number,
+    isFinished: boolean
 };
 
 export class Workout extends Component<{}, WorkoutProps> {
@@ -13,7 +14,8 @@ export class Workout extends Component<{}, WorkoutProps> {
     state = {
         // program: Array<TimeBlock>(),
         blocks: Array<TimeBlockProps>(),
-        currentBlock: 0
+        currentBlock: 0,
+        isFinished: false
     };
 
     generateRandomWorkout() {
@@ -34,7 +36,8 @@ export class Workout extends Component<{}, WorkoutProps> {
         }
 
         this.setState({
-            blocks: newWorkout
+            blocks: newWorkout,
+            currentBlock: 0
         });
 
         this.startInterval();
@@ -43,7 +46,7 @@ export class Workout extends Component<{}, WorkoutProps> {
     tick() {
         let blocks = this.state.blocks.slice();
         let currentBlock = this.state.blocks[this.state.currentBlock];
-        if (currentBlock.duration > 0 ) {
+        if (currentBlock && currentBlock.duration > 0 ) {
             // decrease time stamp
             currentBlock.duration = currentBlock.duration - 1;
             blocks[this.state.currentBlock] = currentBlock;
@@ -58,17 +61,30 @@ export class Workout extends Component<{}, WorkoutProps> {
         // TODO: DING THE BELL
         let blocks = this.state.blocks.slice();
         let currentBlock = this.state.blocks[this.state.currentBlock];
-        currentBlock.activeClass += ' finished';
+        currentBlock.activeClass += ' hide';
         // set next block to current
-        blocks[this.state.currentBlock + 1].activeClass += 'current';
+        let nextBlock = blocks[this.state.currentBlock + 1];
+        if (nextBlock) {
+            nextBlock.activeClass += ' current';
+        }
         clearInterval(this.interval);
         this.setState({
             currentBlock: this.state.currentBlock + 1,
             blocks: blocks
         });
+
+        // restart cycle or end workout
         if (this.state.currentBlock < this.totalBlocks) {
             this.startInterval();
+        } else {
+            this.endWorkout();
         }
+    }
+
+    endWorkout() {
+        this.setState({
+            isFinished: true
+        });
     }
 
     startInterval() {
@@ -90,6 +106,7 @@ export class Workout extends Component<{}, WorkoutProps> {
         return <div className={"workout-container"}>
             <button onClick={() => this.generateRandomWorkout()}>GENERATE RANDOM WORKOUT</button>
             {rows}
+            <h1 className={this.state.isFinished ? 'show' : 'hide'}> FINISHED </h1>
         </div>
     }
 }

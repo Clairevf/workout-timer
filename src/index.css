@@ -33,12 +33,8 @@ code {
   background-color: rgb(206, 55, 55);
 }
 
-
-.finished {
-  background-color: gray;
-  border: 3px solid black;
-  color: white;
-  width: 300px;
+.hide {
+  display: none;
 }
 
 
