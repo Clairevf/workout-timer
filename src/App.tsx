@@ -1,7 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-// import { Clock } from './widgets/clock';
 import { Workout } from './widgets/Workout';
 
 function App() {
