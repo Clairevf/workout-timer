@@ -1,7 +1,5 @@
 import React, { Component } from 'react'; // we need this to make JSX compile
 import {TimeBlockTypes} from './TimeBlock';
-export type WorkoutGeneratorProps = {
-}
 
 interface TimerBlockGeneratorProps {
 
@@ -10,9 +8,9 @@ interface TimerBlockGeneratorProps {
 
 let DEFAULT_BLOCK_TIME = 30;
 
-export class WorkoutGenerator extends Component<{}, WorkoutGeneratorProps> {
+export class BlockGenerator extends Component<{addBlockToWorkout: (type: TimeBlockTypes, timeSelected: number) => void}, {}> {
     onBlockClickHandler(type: TimeBlockTypes, timeSelected: number) {
-        console.log(type + ' block clicked for ' + timeSelected + ' seconds.');
+        this.props.addBlockToWorkout(type, timeSelected);
     }
 
     // render will know everything!
