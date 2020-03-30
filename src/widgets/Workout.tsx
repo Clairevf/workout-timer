@@ -8,6 +8,8 @@ type WorkoutProgramState = {
     isFinished: boolean
 };
 
+// TODO: use audio files
+var DEFAULT_BELL_TONE = 'http://soundbible.com/mp3/Boxing_arena_sound-Samantha_Enrico-246597508.mp3';
 export class WorkoutProgram extends Component<{}, WorkoutProgramState> {
     interval: NodeJS.Timer;
     state = {
@@ -55,11 +57,13 @@ export class WorkoutProgram extends Component<{}, WorkoutProgramState> {
         }
     }
     endInterval() {
-        // TODO: DING THE BELL
+        // ring dat bell
+        this.ringBell();
+
+        // move on to the next block
         let blocks = this.state.blocks.slice();
         let currentBlock = this.state.blocks[this.state.currentBlock];
         currentBlock.activeClass += ' hide';
-        // set next block to current
         let nextBlock = blocks[this.state.currentBlock + 1];
         if (nextBlock) {
             nextBlock.activeClass += ' current';
@@ -113,6 +117,11 @@ export class WorkoutProgram extends Component<{}, WorkoutProgramState> {
         this.setState({
             blocks: blocks
         });
+    }
+
+    ringBell() {
+        var audio = new Audio(DEFAULT_BELL_TONE);
+        audio.play();
     }
 
     render() {
